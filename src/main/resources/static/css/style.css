@@ -1,0 +1,97 @@
+html {
+    font-size: 80%;
+    font-family: Helvetica, serif;
+}
+
+.header {
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    background-color: gray;
+    margin-top: 10px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.content-left {
+    justify-content: center;
+    align-items: center;
+}
+
+.content-right {
+    border-left: 1px solid gray;
+    height: 100%;
+    border-right: 1px solid gray;
+}
+
+.img-thumbnail {
+    max-width: 100px;
+}
+
+.add {
+    color: #4CAF50;
+    font-size: 30px;
+}
+
+.func-header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-bottom: 15px;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-check-input, .form-check-label {
+    cursor: pointer;
+}
+
+.poster {
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.img-thumbnail {
+    border: none;
+    border-radius: 10px;
+}
+
+.sort-buttons {
+    display: inline-block;
+}
+
+.sort-buttons a {
+    margin-right: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.sort-buttons a:hover {
+    color: blue;
+}
+
+.sort-buttons i {
+    font-size: 20px;
+}
+
+.sort-buttons .active i {
+    color: orange;
+}
+
+.nav-item a:hover {
+    background-color: #cccccc;
+}
+.nav-item{
+    font-size: 16px;
+}

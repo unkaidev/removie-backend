@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Credit List</title>
+    <div th:replace="stylesheet.html::stylesheet"></div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/movie-list.css}"/>
+    <link rel="stylesheet" th:href="@{/css/statistic.css}"/>
+
+</head>
+<body>
+<div class="container-sm">
+    <div th:replace="navbar.html::navbar"></div>
+    <div class="row ">
+
+        <div class="container">
+            <div class="d-none d-xl-block col-xl-2 ">
+                <div class="content-left">
+                    <div th:replace="sidebar.html::sidebar"></div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-12">
+                <div class="content-right">
+                    <div class="stats-container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <h2><i class="fa fa-users" style="font-size: 70px;"></i> Total Users</h2>
+                                    <p th:text="${totalUsers}" style="font-size: 70px; text-align: center">0</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <h2><i class="fa fa-files-o" style="font-size: 70px"></i> Total Movies</h2>
+                                    <p th:text="${totalMovies}" style="font-size: 70px; text-align: center">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <h2><i class="fa fa-user-plus" style="font-size: 70px"></i>The Newest User:</h2>
+                                    <p th:text="${newestUser.username}" ></p>
+                                    <p th:text="${newestUser.email}"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <h2><i class="fa fa-film" style="font-size: 70px"></i> The Newest Movie:</h2>
+                                    <p th:text="${newestMovie.title}"></p>
+                                    <p th:text="${newestMovie.tagline}"></p>
+                                    <p th:text="${newestMovie.createAt}"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<div class="container-sm">
+    <div th:replace="footer.html :: footer"></div>
+</div>
+
+</body>
+</html>

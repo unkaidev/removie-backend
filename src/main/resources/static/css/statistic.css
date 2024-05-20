@@ -1,0 +1,23 @@
+.stats-container {
+    margin-top: 30px;
+}
+
+.stat-box {
+    background-color:lightskyblue;
+    min-height: 250px;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.stat-box h2 {
+    font-size: 40px;
+    color: purple;
+    margin-bottom: 10px;
+}
+
+.stat-box p {
+    font-size: 22px;
+    font-style: italic;
+    margin-bottom: 5px;
+}

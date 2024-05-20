@@ -1,0 +1,78 @@
+<div th:fragment="sidebar">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light border">
+        <a th:href="@{/be}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <img
+                    th:src="@{/img/Logo.png}" alt="" width="32" height="32"
+                    class="rounded-circle me-2">
+            <label style="font-size: 16px; font-family: 'Almonte Snow'; font-weight: bold">RE MOVIE BACKEND</label>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a th:href="@{/be}"
+                   th:class="${contextPath == '/be'} ? 'nav-link active' : 'nav-link'"
+                >
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/be/users/listUsers}"
+                   th:class="${contextPath.matches('^/be/users/.*') ? 'nav-link active' : 'nav-link'}"
+                >
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    User
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/be/movies/listMovies}"
+                   th:class="${contextPath.matches('^/be/movies/.*') ? 'nav-link active' : 'nav-link'}"
+                >
+                    <i class="fa fa-film" aria-hidden="true"></i>
+                    Movie
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/be/credits/listCredits}"
+                   th:class="${contextPath.matches('^/be/credits/.*') ? 'nav-link active' : 'nav-link'}"
+                >
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    Credit
+                </a>
+            </li>
+            <li class="nav-item">
+                <a
+                        th:class="${contextPath.matches('^/be/statistic') ? 'nav-link active' : 'nav-link'}"
+                        th:href="@{/be/statistic}"
+                >
+                    <i class="fa fa-line-chart" aria-hidden="true"></i>
+                    Statistic</a>
+            </li>
+        </ul>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+               id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img th:if="${username != 'anonymousUser'}"
+                     th:src="@{/img/avatar.jpg}" alt="" width="32" height="32"
+                     class="rounded-circle me-2">
+                <strong>Hello
+                    <b th:text="${username == 'anonymousUser' ? '' : username}"></b>
+                </strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li th:if="${username == 'anonymousUser'}">
+                    <a class="dropdown-item" th:href="@{/be/login}">Sign in</a>
+                </li>
+
+                <li th:if="${username != 'anonymousUser'}">
+                    <form th:action="@{/be/logout}" method="post">
+                        <button class="dropdown-item" type="submit">Sign out</button>
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>

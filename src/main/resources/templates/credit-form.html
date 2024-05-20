@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Form</title>
+    <script th:src="@{/js/credit-form.js}"></script>
+    <div th:replace="stylesheet.html::stylesheet"></div>
+</head>
+<body>
+<div class="container-sm">
+    <div class="row ">
+        <div th:replace="navbar.html::navbar"></div>
+        <div class="container">
+
+
+            <div class="d-none d-xl-block col-xl-2 ">
+                <div class="content-left">
+                    <div th:replace="sidebar.html::sidebar"></div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-sm-12">
+                <div th:if="${errorMessage}" class="alert alert-danger text-center container-sm">
+                    <i class="fa fa-exclamation" aria-hidden="true">
+                        <a th:text="${errorMessage}"></a></i>
+
+                </div>
+
+                <div class="content-right">
+                    <h2 class="text-center my-3">Credit Form</h2>
+                    <div class="container-sm">
+                        <form th:action="@{/be/credits/save}" th:object="${credit}" method="post">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input type="hidden" th:field="*{active}"/>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title:</label>
+                                <input type="text" class="form-control" id="title" th:value="${title}" th:field="*{title}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Movie:</label>
+                                <div style="height: 200px; overflow-y: auto; border: gray solid 1px">
+                                    <div class="form-check" th:each="movie : ${allMovies}">
+                                        <input class="form-check-input" type="checkbox" th:id="${'movie-' + movie.id}" th:value="${movie.id}" th:field="*{movie}" />
+                                        <label class="form-check-label" th:for="${'movie-' + movie.id}" th:text="${movie.title}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3"  style="height: 200px; overflow-y: auto;border: gray solid 1px">
+                                <label class="form-label">Cast:</label>
+                                <button id="addNewCastButton" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addNewCastModal">Add New Cast</button>
+                                <div  class="form-check" th:each="cast : ${allCasts}">
+                                    <input class="form-check-input" type="checkbox" th:id="'castCheckbox-' + ${cast.id}" th:value="${cast.id}" th:field="*{cast_ids}" name="castIds">
+                                    <label class="form-check-label" th:for="'castCheckbox-' + ${cast.id}">
+                                        <span th:text="${cast.name}"></span> - <span th:text="${cast.character}"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3" style="height: 200px; overflow-y: auto;border: gray solid 1px" >
+                                <label class="form-label" >Crew:</label>
+                                <button id="addNewCrewButton" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addNewCrewModal">Add New Crew</button>
+                                <div class="form-check" th:each="crew : ${allCrews}">
+                                    <input class="form-check-input" type="checkbox" th:id="'crewCheckbox-' + ${crew.id}" th:value="${crew.id}" th:field="*{crew_ids}" name="crewIds">
+                                    <label class="form-check-label" th:for="'crewCheckbox-' + ${crew.id}">
+                                        <span th:text="${crew.name}"></span> - <span th:text="${crew.known_for_department}"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <button type="submit" class="btn btn-success" onclick="return confirmAction('save')">
+                                    Save
+                                </button>
+                            </div>
+                            <div>
+                                <div class="modal fade" id="addNewCastModal" tabindex="-1" aria-labelledby="addNewCastModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addNewCastModalLabel">Add New Cast</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="addNewCastForm">
+                                                    <div class="mb-3">
+                                                        <label for="castName" class="form-label">Name:</label>
+                                                        <input type="text" class="form-control" id="castName" >
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="castKnownForDepartment" class="form-label">Known For Department:</label>
+                                                        <input type="text" class="form-control" id="castKnownForDepartment" >
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="castCharacter" class="form-label">Character:</label>
+                                                        <input type="text" class="form-control" id="castCharacter" >
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="castProfile" class="form-label">Profile Image:</label>
+                                                        <input type="text" class="form-control" id="castProfile" >
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="saveNewCastButton">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="addNewCrewModal" tabindex="-1" aria-labelledby="addNewCrewModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addNewCrewModalLabel">Add New Crew</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="addNewCrewForm">
+                                                    <div class="mb-3">
+                                                        <label for="crewName" class="form-label">Name:</label>
+                                                        <input type="text" class="form-control" id="crewName" >
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="crewDepartment" class="form-label">Department:</label>
+                                                        <input type="text" class="form-control" id="crewDepartment" >
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="saveNewCrewButton">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <a th:href="@{/be/credits/add}" class="btn btn-secondary mb-2">Add New</a>
+                                <hr>
+                                <a class="btn btn-primary" th:href="@{/be/credits/listCredits}">Back to Credit List</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-sm">
+    <div th:replace="footer.html :: footer"></div>
+</div>
+</body>
+</html>

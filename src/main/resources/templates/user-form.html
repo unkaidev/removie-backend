@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Form</title>
+    <div th:replace="stylesheet.html::stylesheet"></div>
+</head>
+<body>
+<div class="container-sm">
+    <div class="row ">
+        <div th:replace="navbar.html::navbar"></div>
+        <div class="container">
+
+
+            <div class="d-none d-xl-block col-xl-2 ">
+                <div class="content-left">
+                    <div th:replace="sidebar.html::sidebar"></div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-sm-12">
+                <div th:if="${errorMessage}" class="alert alert-danger text-center container-sm">
+                    <i class="fa fa-exclamation" aria-hidden="true">
+                        <a th:text="${errorMessage}"></a></i>
+
+                </div>
+
+                <div class="content-right">
+                    <h2 class="text-center my-3">Movie Form </h2>
+                    <div class="container-sm">
+                        <form th:action="@{/be/users/save}" th:object="${user}" method="post">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input type="hidden" th:field="*{active}"/>
+                            <input type="hidden" th:field="*{wishlistId}"/>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username:</label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="text" class="form-control" id="email" th:field="*{email}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="text" class="form-control" id="password" th:field="*{password}"
+                                       th:disabled="${user.isActive()}"
+                                       required/>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label row">Role Names:</label>
+                                <div th:each="role: ${allRoles}">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:id="'roleCheckbox-' + ${role.id}"
+                                               name="roles" th:value="${role.id}"
+                                               th:checked="${user.roles != null and user.roles.contains(role)}">
+                                        <label class="form-check-label" th:for="'roleCheckbox-' + ${role.id}"
+                                               th:text="${role.name}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label row">Active:</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" th:checked="${user.active}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 text-center">
+                                <button type="submit" class="btn btn-success" onclick="return confirmAction('save')">
+                                    Save
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <a th:href="@{/be/users/add}" class="btn btn-secondary mb-2">Add New</a>
+                                <hr>
+                                <a class="btn btn-primary" th:href="@{/be/users/listUsers}">Back to List Users</a>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-sm">
+    <div th:replace="footer.html :: footer"></div>
+</div>
+</body>
+</html>

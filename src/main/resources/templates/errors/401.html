@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <div th:replace="stylesheet.html::stylesheet"></div>
+</head>
+<body>
+<div class="container-sm">
+    <div class="row">
+        <div th:replace="navbar.html::navbar"></div>
+        <div class="container">
+            <div class="d-none d-xl-block col-xl-2">
+                <div class="content-left">
+                    <div th:replace="sidebar.html::sidebar"></div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-sm-12">
+                <div class="content-right">
+
+                    <div class="text-center">
+                        <h1 class="my-3">ERROR 401</h1>
+                        <br>
+                        <h2>You don't have access to this content! Please sign in <a th:href="@{/be/login}">here</a>!
+                        </h2>
+
+                        <hr>
+                        <img class="container-sm" th:src="@{/img/401page.jpg}" alt="error401">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="footer.html :: footer"></div>
+</div>
+</body>
+</html>

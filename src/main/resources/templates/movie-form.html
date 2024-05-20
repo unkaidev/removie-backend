@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Form</title>
+    <script th:src="@{/js/movie-form.js}"></script>
+    <div th:replace="stylesheet.html::stylesheet"></div>
+</head>
+<body>
+<div class="container-sm">
+    <div class="row ">
+        <div th:replace="navbar.html::navbar"></div>
+        <div class="container">
+
+
+            <div class="d-none d-xl-block col-xl-2 ">
+                <div class="content-left">
+                    <div th:replace="sidebar.html::sidebar"></div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-sm-12">
+                <div th:if="${errorMessage}" class="alert alert-danger text-center container-sm">
+                    <i class="fa fa-exclamation" aria-hidden="true">
+                        <a th:text="${errorMessage}"></a></i>
+
+                </div>
+
+                <div class="content-right">
+                    <h2 class="text-center my-3">Movie Form </h2>
+                    <div class="container-sm">
+                        <form th:action="@{/be/movies/save}" th:object="${movie}" method="post">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input type="hidden" th:field="*{active}"/>
+                            <input type="hidden" th:field="*{popularity}"/>
+                            <input type="hidden" th:field="*{vote_count}"/>
+                            <input type="hidden" th:field="*{vote_average}"/>
+                            <input type="hidden" th:field="*{viewToday}"/>
+                            <input type="hidden" th:field="*{viewThisWeek}"/>
+                            <div class="mb-3">
+                                <label class="form-label">Review:</label>
+                                <div th:each="review : ${movie.reviewIds}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:id="'reviewCheckbox-' + ${review.id}"
+                                               name="reviewIds" th:value="${review.id}"
+                                               th:checked="${movie.reviewIds != null and movie.reviewIds.contains(review)}">
+                                        <label class="form-check-label" th:for="'reviewCheckbox-' + ${review.id}"
+                                               th:text="${review.body}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="imdbId" class="form-label">imdbId:</label>
+                                <input type="text" class="form-control" id="imdbId" th:field="*{imdbId}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label row">Adult:</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" th:checked="${adult}">
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="original_language" class="form-label">Original_language:</label>
+                                <input type="text" class="form-control" id="original_language"
+                                       th:field="*{original_language}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="original_title" class="form-label">Original_title:</label>
+                                <input type="text" class="form-control" id="original_title" th:field="*{original_title}"
+                                       required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title:</label>
+                                <input type="text" class="form-control" id="title" th:field="*{title}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tagline" class="form-label">Tagline:</label>
+                                <input type="text" class="form-control" id="tagline" th:field="*{tagline}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="overview" class="form-label">Overview:</label>
+                                <textarea class="form-control" id="overview" rows="3" th:field="*{overview}" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="releaseDate" class="form-label">Release Date:</label>
+                                <input type="date" class="form-control" id="releaseDate" th:field="*{releaseDate}"
+                                       required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="trailer_Link" class="form-label">Trailer Link (Key):</label>
+                                <input type="text" class="form-control" id="trailer_Link" th:field="*{trailerLink}"
+                                       required/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label row">Genres:</label>
+                                <div th:each="genre: ${allGenres}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:id="'genreCheckbox-' + ${genre.id}"
+                                               name="genre_ids" th:value="${genre.id}"
+                                               th:checked="${movie.genre_ids != null and movie.genre_ids.contains(genre)}">
+                                        <label class="form-check-label" th:for="'genreCheckbox-' + ${genre.id}"
+                                               th:text="${genre.name}"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <label for="poster" class="form-label">Poster:</label>
+                                    <div class="container-sm text-center my-3">
+                                        <img th:if="${not #strings.isEmpty(movie.poster)}" th:src="${movie.poster}"
+                                             class="poster" alt="Movie Poster"
+                                             id="posterImage"/>
+                                    </div>
+
+                                    <div id="imageContainer" class="container-sm text-center">
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="poster" th:field="*{poster}"
+                                               required/>
+
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-primary"
+                                                    onclick="refreshImagePoster()">
+                                                <i class="fa fa-refresh"></i> Preview
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3"></div>
+
+                            <div class="row">
+                                <div class="input-group mb-3">
+                                    <div th:each="backdrop, iterStat : ${movie.backdrops}">
+                                        <div class="form-check">
+                                            <input th:value="${backdrop}" class="form-check-input" type="checkbox"
+                                                   name="backdrops"
+                                                   th:id="'backdropInput_' + ${iterStat.index}"
+                                                   th:checked="${movie.backdrops.contains(backdrop)}"
+                                            >
+                                            <label class="form-check-label"
+                                                   th:for="'backdropInput_' + ${iterStat.index}">
+                                                <img th:if="${not #strings.isEmpty(movie.backdrops)}"
+                                                     th:src="${iterStat.current}"
+                                                     class="img-thumbnail" alt="Backdrops"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <label class="mx-3"> Backdrops:
+                                        <div class="backdropContainer mb-3  d-flex flex-row" id="backdropContainer">
+                                            <img class="img-thumbnail" id="addBackdrop">
+                                            <label onclick="addBackdropField()" class="btn ">
+                                                <i class="fa fa-plus-circle add" aria-hidden="true"></i>
+                                            </label>
+                                        </div>
+                                    </label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="mb-3 text-center">
+                                <button type="submit" class="btn btn-success" onclick="return confirmAction('save')">
+                                    Save
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <a th:href="@{/be/movies/add}" class="btn btn-secondary mb-2">Add New</a>
+                                <hr>
+                                <a class="btn btn-primary" th:href="@{/be/movies/listMovies}">Back to List Movie</a>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-sm">
+    <div th:replace="footer.html :: footer"></div>
+</div>
+</body>
+</html>

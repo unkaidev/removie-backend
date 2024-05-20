@@ -1,0 +1,63 @@
+<div th:fragment="navbar">
+    <div class="header">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/be}">
+                    <img
+                            th:src="@{/img/Logo.png}" alt="" width="32" height="32"
+                            >
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a
+                                    th:class="${contextPath == '/be'} ? 'nav-link active' : 'nav-link'"
+                                    aria-current="page" th:href="@{/be}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                    th:class="${contextPath.matches('^/be/users/.*') ? 'nav-link active' : 'nav-link'}"
+                                    th:href="@{/be/users/listUsers}">User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                    th:class="${contextPath.matches('^/be/movies/.*') ? 'nav-link active' : 'nav-link'}"
+                                    th:href="@{/be/movies/listMovies}">Movie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                    th:class="${contextPath.matches('^/be/credits/.*') ? 'nav-link active' : 'nav-link'}"
+                                    th:href="@{/be/credits/listCredits}">Credit</a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                    th:class="${contextPath.matches('^/be/statistic') ? 'nav-link active' : 'nav-link'}"
+                                    th:href="@{/be/statistic}">Statistic</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Settings
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li th:if="${username == 'anonymousUser'}">
+                                    <a class="dropdown-item" th:href="@{/be/login}">Sign in</a></li>
+                                <li th:if="${username != 'anonymousUser'}">
+                                    <form th:action="@{/be/logout}" method="post">
+                                        <button class="dropdown-item" type="submit">Sign out</button>
+                                    </form>
+
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
